@@ -1,0 +1,59 @@
+# Names of nodes to start
+#   most people will only start one node:
+CELERYD_NODES="worker1"
+#   but you can also start multiple and configure settings
+#   for each in CELERYD_OPTS (see `celery multi --help` for examples):
+#CELERYD_NODES="worker1 worker2 worker3"
+#   alternatively, you can specify the number of nodes to start:
+#CELERYD_NODES=10
+
+# Absolute or relative path to the 'celery' command:
+CELERY_BIN="/home/vagrant/testenv/bin/celery"
+#CELERY_BIN="/virtualenvs/def/bin/celery"
+
+# App instance to use
+# comment out this line if you don't use an app
+CELERY_APP="mysite"
+# or fully qualified:
+#CELERY_APP="proj.tasks:app"
+
+# Where to chdir at start.
+CELERYD_CHDIR="/home/vagrant/mysite"
+
+# Extra command-line arguments to the worker
+CELERYD_OPTS="--time-limit=300 --concurrency=8 --loglevel=info"
+
+# Uncomment for production
+VIRTUALENV_DIR="/home/vagrant/testenv"
+
+# Python interpreter from environment.
+ENV_PYTHON="$VIRTUALENV_DIR/bin/python"
+
+#CELERYD="$ENV_PYTHON /home/vagrant/mysite/manage.py celeryd"
+CELERY_MULTI="$ENV_PYTHON $CELERYD_CHDIR/manage.py /etc/default/celeryd"
+
+export DJANGO_SETTINGS_MODULE="mysite.settings"
+
+# %N will be replaced with the first part of the nodename.
+CELERYD_LOG_FILE="/var/log/celery/%N.log"
+CELERYD_PID_FILE="/var/run/celery/%N.pid"
+
+# Workers should run as an unprivileged user.
+#   You need to create this user manually (or you can choose
+#   a user/group combination that already exists, e.g. nobody).
+CELERYD_USER="celery"
+CELERYD_GROUP="celery"
+CELERYEV_USER="celery"
+CELERYEV_GROUP="celery"
+CELERYBEAT_USER="celery"
+CELERYBEAT_GROUP="celery"
+
+
+# Name of the celery config module.
+CELERY_CONFIG_MODULE="celeryconfig"
+
+# If enabled pid and log directories will be created if missing,
+# and owned by the userid/group configured.
+CELERY_CREATE_DIRS=1
+
+export PYTHONPATH=$PYTHONPATH:~/mysite
